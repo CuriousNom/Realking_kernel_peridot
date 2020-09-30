@@ -769,7 +769,7 @@ endif
 ifeq ($(KBUILD_EXTMOD),)
 # Objects we will link into vmlinux / subdirs we need to visit
 core-y		:=
-drivers-y	:=
+drivers-y	:= techpack/
 libs-y		:= lib/
 endif # KBUILD_EXTMOD
 
@@ -1207,6 +1207,9 @@ export MODULES_NSDEPS := $(extmod_prefix)modules.nsdeps
 
 PHONY += headers
 
+techpack-dirs := $(shell find $(srctree)/techpack -maxdepth 1 -mindepth 1 -type d -not -name ".*")
+techpack-dirs := $(subst $(srctree)/,,$(techpack-dirs))
+
 #Default location for installed headers
 ifeq ($(KBUILD_EXTMOD),)
 PHONY += archheaders archscripts
@@ -1235,6 +1238,9 @@ ifeq ($(KBUILD_EXTMOD),)
 endif
 	$(Q)$(MAKE) $(hdr-inst)=$(hdr-prefix)include/uapi
 	$(Q)$(MAKE) $(hdr-inst)=$(hdr-prefix)arch/$(SRCARCH)/include/uapi
+	$(Q)for d in $(techpack-dirs); do \
+		$(MAKE) $(hdr-inst)=$$d/include/uapi; \
+	done
 
 # ---------------------------------------------------------------------------
 # Devicetree files
