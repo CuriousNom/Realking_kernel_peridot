@@ -219,8 +219,8 @@ static void msm_set_upd_config(struct snd_soc_pcm_runtime *rtd)
 	else {
 		if(!strncmp(component->driver->name, WCD937X_DRV_NAME,
 				strlen(WCD937X_DRV_NAME))){
-			pdata->get_dev_num = wcd937x_codec_get_dev_num;
-		} else if(!strncmp(component->driver->name, WCD938X_DRV_NAME,
+			panic("Device is wcd937x, which is unsupported");
+		} else if (!strncmp(component->driver->name, WCD938X_DRV_NAME,
 				strlen(WCD938X_DRV_NAME))){
 			pdata->get_dev_num = wcd938x_codec_get_dev_num;
 		}
@@ -1273,6 +1273,10 @@ static int msm_snd_card_late_probe(struct snd_soc_card *card)
 	}
 
 	mbhc_calibration = def_wcd_mbhc_cal();
+
+        if (is_wcd937x)
+ 		panic("Device is wcd937x, which is unsupported");
+
 	if (!mbhc_calibration)
 		return -ENOMEM;
 	wcd_mbhc_cfg.calibration = mbhc_calibration;
