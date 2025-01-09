@@ -1054,6 +1054,11 @@ static int nothing_vadc7_scale_hw_calib_therm_30(
 				const struct adc5_data *data,
 				u16 adc_code, int *result_mdec);
 
+static int nothing_vadc7_scale_hw_calib_therm_30(
+				const struct u32_fract *prescale,
+				const struct adc5_data *data,
+				u16 adc_code, int *result_mdec);
+
 static struct qcom_adc5_scale_type scale_adc5_fn[] = {
 	[SCALE_HW_CALIB_DEFAULT] = {qcom_vadc_scale_hw_calib_volt},
 	[SCALE_HW_CALIB_CUR] = {qcom_vadc_scale_hw_calib_current},
@@ -1294,6 +1299,32 @@ static int qcom_vadc7_scale_hw_calib_therm(
 
 	ret = qcom_vadc_map_voltage_temp(adcmap7_100k,
 				 ARRAY_SIZE(adcmap7_100k),
+				 resistance, &result);
+	if (ret)
+		return ret;
+
+	*result_mdec = result;
+
+	return 0;
+}
+
+static int nothing_vadc7_scale_hw_calib_therm_30(
+				const struct u32_fract *prescale,
+				const struct adc5_data *data,
+				u16 adc_code, int *result_mdec)
+{
+	s64 resistance = adc_code;
+	int ret, result;
+
+	if (adc_code >= RATIO_MAX_ADC7)
+		return -EINVAL;
+
+	/* (ADC code * R_PULLUP (30Kohm)) / (full_scale_code - ADC code)*/
+	resistance *= R_PU_30K;
+	resistance = div64_s64(resistance, RATIO_MAX_ADC7 - adc_code);
+
+	ret = qcom_vadc_map_voltage_temp(nothing_adcmap_batt_therm_30k,
+				 ARRAY_SIZE(nothing_adcmap_batt_therm_30k),
 				 resistance, &result);
 	if (ret)
 		return ret;

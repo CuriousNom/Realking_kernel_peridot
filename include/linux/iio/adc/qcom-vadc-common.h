@@ -231,12 +231,17 @@ enum vadc_scale_fn_type {
 	SCALE_HW_CALIB_PM5_GEN3_BATT_ID_100K,
 	SCALE_HW_CALIB_PM5_GEN3_USB_IN_I,
 <<<<<<< HEAD
+<<<<<<< HEAD
 	SCALE_HW_CALIB_PM5_GEN4_BATT_THERM_10K,
 	SCALE_HW_CALIB_PM5_GEN4_BATT_ID_10K,
 =======
 	NOTHING_BASE = 100,
 	NOTHING_SCALE_HW_BATT_THERM_30K,
 >>>>>>> 635de46a8386 (Merge codes for Nothing Phone(3a) Nothing OS 3.1.A059(Asteroids-V3.1-250302-1856))
+=======
+	NOTHING_BASE = 100,
+	NOTHING_SCALE_HW_BATT_THERM_30K,
+>>>>>>> 635de46a8386b (Merge codes for Nothing Phone(3a) Nothing OS 3.1.A059(Asteroids-V3.1-250302-1856))
 	SCALE_HW_CALIB_INVALID,
 };
 

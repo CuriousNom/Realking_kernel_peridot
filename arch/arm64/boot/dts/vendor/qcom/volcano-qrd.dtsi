@@ -1,0 +1,312 @@
+#include <dt-bindings/gpio/gpio.h>
+#include "volcano-pmiv0104.dtsi"
+#include "volcano-thermal-overlay.dtsi"
+#include <dt-bindings/clock/qcom,rpmh.h>
+
+&soc {
+	cable_detect {
+		compatible = "nt,cable_detect";
+		ant0_present = <&tlmm 34 0x00>;
+		ant2_present = <&tlmm 35 0x00>;
+	};
+
+	slot_detect {
+		compatible = "nt,slot_detect";
+		uim0_present = <&tlmm 99 0x00>;
+		uim1_present = <&tlmm 103 0x00>;
+	};
+
+	ois_vdd_ctrl {
+		compatible = "nt,ois_vdd_ctrl";
+		ois-vdd-supply = <&WL_LDO6>;
+		ois-vdd-max-uv = <3004000>;
+		ois-vdd-min-uv = <3004000>;
+	};
+};
+
+&ufsphy_mem {
+	compatible = "qcom,ufs-phy-qmp-v4-crow";
+
+	/* VDDA_UFS_CORE */
+	vdda-phy-supply = <&L2B>;
+	vdda-phy-max-microamp = <140120>;
+
+	/* VDDA_UFS_0_1P2 */
+	vdda-pll-supply = <&L4B>;
+	vdda-pll-max-microamp = <18340>;
+
+	/* Phy GDSC for VDD_MX, always on */
+	vdd-phy-gdsc-supply = <&gcc_ufs_mem_phy_gdsc>;
+
+	/* Qref power supply, Refer Qref diagram */
+	vdda-qref-supply = <&L2B>;
+	vdda-qref-max-microamp = <2310>;
+
+	status = "ok";
+};
+
+&ufshc_mem {
+	vdd-hba-supply = <&gcc_ufs_phy_gdsc>;
+
+	vcc-supply = <&L12B>;
+	vcc-max-microamp = <800000>;
+/*
+	vccq-supply = <&L5F>;
+	vccq-max-microamp = <750000>;
+*/
+	vccq2-supply = <&L4F>;
+	vccq2-max-microamp = <750000>;
+
+	/* VDD_PX10 is voted for the ufs_reset_n */
+	qcom,vddp-ref-clk-supply = <&L5B>;
+	qcom,vddp-ref-clk-max-microamp = <100>;
+
+	qcom,vccq-parent-supply = <&S2B>;
+	qcom,vccq-parent-max-microamp = <210000>;
+
+	status = "ok";
+};
+
+&sdhc_2 {
+	status = "disabled";
+
+	vdd-supply = <&L13B>;
+	qcom,vdd-voltage-level = <2960000 2960000>;
+	qcom,vdd-current-level = <0 800000>;
+
+	vdd-io-supply = <&L23B>;
+	qcom,vdd-io-voltage-level = <1800000 2960000>;
+	qcom,vdd-io-current-level = <0 22000>;
+
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&sdc2_on>;
+	pinctrl-1 = <&sdc2_off>;
+
+	cd-gpios = <&tlmm 65 GPIO_ACTIVE_LOW>;
+};
+
+&pmiv0104_lcdb {
+	status = "disabled";
+};
+
+&pmiv0104_wled {
+	status = "disabled";
+};
+
+&pm7550_l22{
+	regulator-min-microvolt = <3300000>;
+	regulator-max-microvolt = <3300000>;
+	qcom,init-voltage = <3300000>;
+};
+
+&qupv3_se0_spi {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	status = "ok";
+	focaltech@0 {
+		compatible = "focaltech,fts_ts";
+		reg = <0x0>;
+		spi-max-frequency = <12000000>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <19 0x2008>;
+		focaltech,reset-gpio = <&tlmm 20 0x00>;
+		focaltech,irq-gpio = <&tlmm 19 0x2008>;
+		focaltech,max-touch-number = <10>;
+		focaltech,display-coords =  <0 0 1080 2392>;
+		vci-supply = <&L22B>;
+		vddio-supply = <&L11B>;
+		status = "ok";
+	};
+};
+
+&tlmm {
+	ics_haptic_rst_pinctrl: ics_haptic_rst_pinctrl {
+		mux {
+			pins = "gpio138";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio138";
+			drive-strength = <2>;
+			bias-disable;
+			output-high;
+		};
+	};
+
+	ics_haptic_irq_pinctrl: ics_haptic_irq_pinctrl {
+		mux {
+			pins = "gpio143";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio143";
+			bias-pull-up;
+			input-enable;
+			drive-open-drain;
+			//power-source = <0>;
+		};
+	};
+};
+
+&qupv3_se8_i2c {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	qcom,clk-freq-out = <1000000>;
+	status = "ok";
+
+	ics_haptic_top: ics_haptic@5f {
+		compatible = "ics,haptic_rt";
+		reg = <0x5f>;
+		device-name = "vibrator_nt";
+		richtap-name = "aac_richtap";
+		pinctrl-names = "default";
+		pinctrl-0 = <&ics_haptic_rst_pinctrl &ics_haptic_irq_pinctrl>;
+		reset-gpio = <&tlmm 138 0>;
+		irq-gpio = <&tlmm 143 0>;
+		// rt6010 chip configuration
+		rt6010_chip_id = <0x6B>;
+		rt6010_reg_size = <0x6C>;
+		rt6010_ram_size = <0x600>;
+		rt6010_sys_f0 = <1700>;
+		rt6010_list_base_addr = <0x400>;
+		rt6010_wave_base_addr = <0x420>;
+		rt6010_fifo_ae = <0x200>;
+		rt6010_fifo_af = <0x300>;
+		rt6010_boost_mode = <0x00>;
+		rt6010_boost_vol = <0x0A>;
+		rt6010_gain = <0x80>;
+		rt6010_brake_en = <0>;
+		rt6010_brake_wave_no = <0>;
+		rt6010_brake_const = <0>;
+		rt6010_brake_acq_point = <0>;
+		status = "ok";
+	};
+
+};
+
+&qupv3_se7_i2c {
+	status = "ok";
+	aw20036_led@3a {
+		compatible = "awinic,aw20036_led";
+		reg = <0x3a>;
+		irq-gpio = <&tlmm 52 0>;
+		reset-gpio = <&tlmm 54 0>;
+		aw20036,led {
+			aw20036,name = "aw20036_led";
+			aw20036,imax = <1>;
+			aw20036,brightness = <128>;
+			aw20036,max_brightness = <255>;
+		};
+	};
+};
+
+&qupv3_se2_spi {
+	status = "ok";
+};
+
+&soc {
+	goodix_fp {
+		compatible = "goodix,fingerprint";
+		interrupt-parent = <&tlmm>;
+		vdd-supply = <&L23B>;
+		vdd-max-uv = <3000000>;
+		vdd-min-uv = <3000000>;
+		fp-gpio-irq = <&tlmm 75 0x00>;
+		fp-gpio-reset = <&tlmm 76 0x00>;
+		status = "ok";
+	};
+};
+
+&qupv3_se1_i2c {
+	status = "ok";
+	st_st21nfc@08 {
+		compatible = "st,st21nfc";
+		reg = <0x08>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <31 0>;
+		reset-gpios = <&tlmm 7 0>;
+		irq-gpios = <&tlmm 31 0>;
+		//pidle-gpios = <&tlmm xx 0>;
+		clkreq-gpios = <&tlmm 6 0>;
+		clocks = <&rpmhcc RPMH_LN_BB_CLK2>;
+		clock-names = "nfc_ref_clk";
+		st,clk_pinctrl;
+		status = "ok";
+	};
+};
+
+&qupv3_se6_spi {
+	status = "ok";
+
+	st54spi: st54spi@0 {
+		compatible = "st,st54spi";
+		reg = <0>;
+		spi-max-frequency = <1000000>;
+
+		/* gpio used as SE_PWR_REQ or SE_nRESET */
+		gpio-power_nreset-std = <&tlmm 14 0x00>;
+
+		/* Power management mode: none, ST54H (default), ST54J */
+		power_mode = "ST54J";
+
+		status = "ok";
+	};
+};
+
+&battery_charger {
+	chg_data_id = <6>;
+};
+
+&L1B {
+	status = "disabled";
+};
+
+/*
+&regulator_ocp_notifier {
+	periph-1c2-supply = <&L2B>;
+	periph-1c3-supply = <&L3B>;
+	periph-1c4-supply = <&L4B>;
+	periph-1c5-supply = <&L5B>;
+	periph-1c7-supply = <&L7B>;
+	periph-1c8-supply = <&L8B>;
+	periph-1c9-supply = <&L9B>;
+	periph-1ca-supply = <&L10B>;
+	periph-1cb-supply = <&L11B>;
+	periph-1cc-supply = <&L12B>;
+	periph-1cd-supply = <&L13B>;
+	periph-1ce-supply = <&L14B>;
+	periph-1cf-supply = <&L15B>;
+	periph-1d0-supply = <&L16B>;
+	periph-1d1-supply = <&L17B>;
+	periph-1d2-supply = <&L18B>;
+	periph-1d3-supply = <&L19B>;
+	periph-1d4-supply = <&L20B>;
+	periph-1d5-supply = <&L21B>;
+	periph-1d6-supply = <&L22B>;
+	periph-1d7-supply = <&L23B>;
+	periph-19b-supply = <&S1B>;
+	periph-19e-supply = <&S2B>;
+	periph-1a1-supply = <&S3B>;
+	periph-1a4-supply = <&S4B_LEVEL>;
+	periph-1e4-supply = <&BOB>;
+	periph-2c1-supply = <&L1C_LEVEL>;
+	periph-2c2-supply = <&L2C>;
+	periph-2c3-supply = <&L3C_LEVEL>;
+	periph-2a4-supply = <&S4C_LEVEL>;
+	periph-2a7-supply = <&S5C_LEVEL>;
+	periph-2aa-supply = <&S6C_LEVEL>;
+	periph-5c1-supply = <&L1F>;
+	periph-5c2-supply = <&L2F>;
+	periph-5c3-supply = <&L3F>;
+	periph-5c4-supply = <&L4F>;
+	periph-5c5-supply = <&L5F>;
+	periph-5c6-supply = <&L6F>;
+	periph-5c7-supply = <&L7F>;
+	periph-5c8-supply = <&L8F>;
+	periph-5c9-supply = <&L9F>;
+	periph-5ca-supply = <&L10F>;
+	periph-5cb-supply = <&L11F>;
+	periph-5cc-supply = <&L12F_LEVEL>;
+};
+*/
