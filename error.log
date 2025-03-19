@@ -1,0 +1,57 @@
+/home/aryan/rk/Makefile:1572: warning: overriding recipe for target 'dtbs'
+/home/aryan/rk/Makefile:1262: warning: ignoring old recipe for target 'dtbs'
+/home/aryan/rk/Makefile:1587: warning: overriding recipe for target 'dtbs_install'
+/home/aryan/rk/Makefile:1272: warning: ignoring old recipe for target 'dtbs_install'
+/home/aryan/rk/Makefile:1597: warning: overriding recipe for target 'scripts_dtc'
+/home/aryan/rk/Makefile:1282: warning: ignoring old recipe for target 'scripts_dtc'
+/home/aryan/rk/Makefile:1605: warning: overriding recipe for target 'dt_binding_check'
+/home/aryan/rk/Makefile:1290: warning: ignoring old recipe for target 'dt_binding_check'
+/home/aryan/rk/Makefile:1572: warning: overriding recipe for target 'dtbs'
+/home/aryan/rk/Makefile:1262: warning: ignoring old recipe for target 'dtbs'
+/home/aryan/rk/Makefile:1587: warning: overriding recipe for target 'dtbs_install'
+/home/aryan/rk/Makefile:1272: warning: ignoring old recipe for target 'dtbs_install'
+/home/aryan/rk/Makefile:1597: warning: overriding recipe for target 'scripts_dtc'
+/home/aryan/rk/Makefile:1282: warning: ignoring old recipe for target 'scripts_dtc'
+/home/aryan/rk/Makefile:1605: warning: overriding recipe for target 'dt_binding_check'
+/home/aryan/rk/Makefile:1290: warning: ignoring old recipe for target 'dt_binding_check'
+/home/aryan/rk/scripts/bpf_doc.py:62: SyntaxWarning: invalid escape sequence '\w'
+  arg_re = re.compile('((\w+ )*?(\w+|...))( (\**)(\w+))?$')
+/home/aryan/rk/scripts/bpf_doc.py:64: SyntaxWarning: invalid escape sequence '\*'
+  proto_re = re.compile('(.+) (\**)(\w+)\(((([^,]+)(, )?){1,5})\)$')
+/home/aryan/rk/scripts/bpf_doc.py:116: SyntaxWarning: invalid escape sequence '\*'
+  p = re.compile(' \* ?(BPF\w+)$')
+/home/aryan/rk/scripts/bpf_doc.py:120: SyntaxWarning: invalid escape sequence '\*'
+  end_re = re.compile(' \* ?NOTES$')
+/home/aryan/rk/scripts/bpf_doc.py:135: SyntaxWarning: invalid escape sequence '\*'
+  p = re.compile(' \* ?((.+) \**\w+\((((const )?(struct )?(\w+|\.\.\.)( \**\w+)?)(, )?){1,5}\))$')
+/home/aryan/rk/scripts/bpf_doc.py:143: SyntaxWarning: invalid escape sequence '\*'
+  p = re.compile(' \* ?(?:\t| {5,8})Description$')
+/home/aryan/rk/scripts/bpf_doc.py:156: SyntaxWarning: invalid escape sequence '\*'
+  p = re.compile(' \* ?(?:\t| {5,8})(?:\t| {8})(.*)')
+/home/aryan/rk/scripts/bpf_doc.py:169: SyntaxWarning: invalid escape sequence '\*'
+  p = re.compile(' \* ?(?:\t| {5,8})Return$')
+/home/aryan/rk/scripts/bpf_doc.py:182: SyntaxWarning: invalid escape sequence '\*'
+  p = re.compile(' \* ?(?:\t| {5,8})(?:\t| {8})(.*)')
+/home/aryan/rk/scripts/bpf_doc.py:221: SyntaxWarning: invalid escape sequence '\s'
+  bpf_p = re.compile('\s*(BPF\w+)+')
+/home/aryan/rk/scripts/bpf_doc.py:226: SyntaxWarning: invalid escape sequence '\s'
+  assign_p = re.compile('\s*(BPF\w+)\s*=\s*(BPF\w+)')
+/home/aryan/rk/scripts/bpf_doc.py:241: SyntaxWarning: invalid escape sequence '\w'
+  self.enum_syscalls = re.findall('(BPF\w+)+', bpf_cmd_str)
+/home/aryan/rk/scripts/bpf_doc.py:264: SyntaxWarning: invalid escape sequence '\s'
+  p = re.compile('\s*FN\((\w+)\)|\\\\')
+/home/aryan/rk/scripts/bpf_doc.py:277: SyntaxWarning: invalid escape sequence '\('
+  self.define_unique_helpers = re.findall('FN\(\w+\)', fn_defines_str)
+/home/aryan/rk/scripts/bpf_doc.py:410: SyntaxWarning: invalid escape sequence '\*'
+  '/{}/,/\*\//:include/uapi/linux/bpf.h'.format(delimiter)]
+/home/aryan/rk/scripts/bpf_doc.py:481: SyntaxWarning: invalid escape sequence '\ '
+  footer = '''
+/home/aryan/rk/scripts/bpf_doc.py:583: SyntaxWarning: invalid escape sequence '\ '
+  one_arg += ' {}**\ '.format(a['star'].replace('*', '\\*'))
+../drivers/misc/Makefile:68: *** missing separator.  Stop.
+make[3]: *** [../scripts/Makefile.build:503: drivers/misc] Error 2
+make[3]: *** Waiting for unfinished jobs....
+make[2]: *** [../scripts/Makefile.build:503: drivers] Error 2
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/home/aryan/rk/Makefile:2110: .] Error 2
+make: *** [Makefile:256: __sub-make] Error 2
