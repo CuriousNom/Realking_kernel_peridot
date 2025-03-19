@@ -60,6 +60,7 @@
 #define ADC5_USR_DATA_CHECK			0x8000
 
 #define R_PU_10K				10000
+#define R_PU_30K                                30000
 #define R_PU_100K				100000
 #define RATIO_MAX_ADC7				BIT(14)
 
@@ -229,8 +230,13 @@ enum vadc_scale_fn_type {
 	SCALE_HW_CALIB_PM5_GEN3_BATT_THERM_100K,
 	SCALE_HW_CALIB_PM5_GEN3_BATT_ID_100K,
 	SCALE_HW_CALIB_PM5_GEN3_USB_IN_I,
+<<<<<<< HEAD
 	SCALE_HW_CALIB_PM5_GEN4_BATT_THERM_10K,
 	SCALE_HW_CALIB_PM5_GEN4_BATT_ID_10K,
+=======
+	NOTHING_BASE = 100,
+	NOTHING_SCALE_HW_BATT_THERM_30K,
+>>>>>>> 635de46a8386 (Merge codes for Nothing Phone(3a) Nothing OS 3.1.A059(Asteroids-V3.1-250302-1856))
 	SCALE_HW_CALIB_INVALID,
 };
 
