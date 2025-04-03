@@ -1,4 +1,0 @@
-#include "pineapplep-aim500.dtsi"
-
-&soc {
-};

@@ -1,5 +1,0 @@
-#include "cliffs-oemvm-mtp.dtsi"
-
-&soc {
-};
-

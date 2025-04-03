@@ -1,4 +1,0 @@
-#include "pitti-atp.dtsi"
-
-&soc {
-};
