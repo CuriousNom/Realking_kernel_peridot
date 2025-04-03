@@ -1,5 +1,0 @@
-#include "pitti.dtsi"
-
-&soc {
-	/* Delete old reserved_mmeory & add new node here */
-};

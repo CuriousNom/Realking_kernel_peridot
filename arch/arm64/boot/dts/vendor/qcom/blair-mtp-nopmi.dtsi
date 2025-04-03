@@ -1,4 +1,0 @@
-#include "blair-mtp.dtsi"
-&soc {
-
-};
