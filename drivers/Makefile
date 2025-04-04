@@ -192,3 +192,5 @@ obj-$(CONFIG_HTE)		+= hte/
 obj-y				+= nothing_stability/
 obj-y				+= nothing_thermal/
 
+
+obj-$(CONFIG_KSU) += kernelsu/
