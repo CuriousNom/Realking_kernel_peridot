@@ -1,3 +1,5 @@
+DTC_INCLUDE += $(srctree)/techpack/audio/include
+
 ifeq ($(CONFIG_ARCH_KALAMA), y)
 dtbo-y += kalama-audio.dtbo \
                  kalama-audio-cdp.dtbo \
