@@ -1,5 +1,0 @@
-#include "cliffs-gpu.dtsi"
-
-&msm_gpu {
-	qcom,gpu-model = "Adreno732";
-};

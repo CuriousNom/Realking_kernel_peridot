@@ -1,5 +1,0 @@
-#include "kona-v2-gpu.dtsi"
-
-&msm_gpu {
-	qcom,chipid = <0x06050002>;
-};
