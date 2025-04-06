@@ -1,0 +1,7 @@
+DTC_INCLUDE += $(srctree)/techpack/synx
+
+include $(srctree)/$(src)/config/pineapple.mk
+
+always-y	:= $(dtbo-y) $(dtb-y)
+subdir-y	:= $(dts-dirs)
+clean-files	:= *.dtb *.dtbo
